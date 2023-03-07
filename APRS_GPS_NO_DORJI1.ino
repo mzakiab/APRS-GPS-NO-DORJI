@@ -1,14 +1,16 @@
 /*
 Thanks to - Handiko Gesang - www.github.com/handiko
-Handiko Gesang dia guna Dorji untuk RF, saya tak ada module itu. Jadi saya buang koding Dorji, RF datang terus dari radio
+Handiko Gesang dia guna Dorji module untuk RF, saya tak ada module itu. 
+Jadi saya buang koding Dorji, RF datang terus dari radio
 
-D2      - Audio out put
+D2      - Audio out put MIC (+)
 D7      - Relay PTT Controller (pin IN)
 D8      - TX pin di GPS
 D9      - RX pin di GPS (kadang2 tak sambung mana2 pun jadi)
 D13     - LED PTT ON/OFF (+)
 GND     - LED PTT ON/OFF (-)
-GND     - GND Relay PTT Controller
+GND     - GND Relay PTT Controller (-)
+GND     - GND MIC (-) diperlukan jika menggunakan handy
 3.3V    - VCC 1 way Relay PTT Controller  
 5.0V    - VCC 2 way Relay PTT Controller 
 
@@ -45,12 +47,7 @@ VCC dan GND untuk GPS Module, ambik di pin ICSP
 #define _PTT      7
 #define _PD       6
 #define _POW      5
-/*
-#define DRJ_TXD 10
-#define DRJ_RXD 11
 
-SoftwareSerial dorji(DRJ_RXD, DRJ_TXD);
-*/
 bool nada = _2400;
 
 /*
@@ -91,7 +88,7 @@ unsigned int tc2400 = (unsigned int)(0.5 * adj_2400 * 1000000.0 / 2400.0);
 /*
  * This strings will be used to generate AFSK signals, over and over again.
  */
-char mycall[8] = "9W2KEY";
+char mycall[8] = "9W2KEY";        // sila tukar kepada callsign anda yang sah
 char myssid = 2;
 
 char dest[8] = "APZKY1";          //  APZxxx adalah The AX.25 Destination Address bagi Experimental
@@ -109,6 +106,7 @@ int coord_valid;
 const char sym_ovl = 'Y';
 /****** List symbols at http://www.aprs.org/symbols.html ********/
 // const char sym_tab = 'p';      // Partly Cloudy
+// const char sym_tab = 'U';      // Matahari cerah
 const char sym_tab = '^';         // Kapal Terbang
 
 unsigned int tx_delay = 10000;     // asal 5000

@@ -25,8 +25,8 @@ Pada 10hb Mac, 2023 tambah LED indicator bagi jenis-jenis msg yang akan di TX
 #include <SoftwareSerial.h>
 
 // Defines the Square Wave Output Pin
-#define OUT_PIN 2   // audio out, asal 12
-#define PTT_LED 13  // LED PTT activity 
+#define OUT_PIN 2               // audio out, asal 12
+#define PTT_LED 13              // LED PTT activity 
 
 #define _1200   1
 #define _2400   0
@@ -122,7 +122,7 @@ const char sym_tab = '^';         // Kapal Terbang
 unsigned int tx_delay = 1000;     // asal 5000
 unsigned int str_len = 400;
 
-unsigned int LED_delay = 300;
+unsigned int LED_delay = 200;
 
 char bit_stuff = 0;
 unsigned short crc=0xffff;
@@ -132,7 +132,7 @@ char rmc[100];
 char rmc_stat;
 
 /*
- * 
+ * 9w2key.hopto.org / 9w2key.blogspot.com
  */
 void set_nada_1200(void);
 void set_nada_2400(void);
@@ -646,8 +646,8 @@ void print_debug(char type)
     Serial.print(rmc);
 
     digitalWrite(LED_GPRMC, HIGH);
-    delay(LED_delay);
-    digitalWrite(LED_GPRMC, LOW);    
+    // delay(LED_delay);
+    // digitalWrite(LED_GPRMC, LOW);    
   }
   else if(type == _FIXPOS)
   {
@@ -658,8 +658,8 @@ void print_debug(char type)
     Serial.print(sym_tab);
 
     digitalWrite(LED_FIXPOS, HIGH);
-    delay(LED_delay);
-    digitalWrite(LED_FIXPOS, LOW);    
+    // delay(LED_delay);
+    // digitalWrite(LED_FIXPOS, LOW);    
   }
   else if(type == _STATUS)
   {
@@ -667,8 +667,8 @@ void print_debug(char type)
     Serial.print(mystatus);
 
     digitalWrite(LED_STATUS, HIGH);
-    delay(LED_delay);
-    digitalWrite(LED_STATUS, LOW);
+    // delay(LED_delay);
+    // digitalWrite(LED_STATUS, LOW);
     
   }
   else if(type == _FIXPOS_STATUS)
@@ -681,8 +681,8 @@ void print_debug(char type)
     Serial.print(comment);
 
     digitalWrite(LED_FIXPOS_STATUS, HIGH);
-    delay(LED_delay);
-    digitalWrite(LED_FIXPOS_STATUS, LOW);
+    // delay(LED_delay);
+    // digitalWrite(LED_FIXPOS_STATUS, LOW);
   }
   else
   {
@@ -761,6 +761,16 @@ void setup()
 
 void loop()
 {
+
+/***********************
+Nak tutup LED Msg Type
+************************/
+digitalWrite(LED_BEACON, LOW);
+digitalWrite(LED_GPRMC, LOW);
+digitalWrite(LED_FIXPOS, LOW);
+digitalWrite(LED_STATUS, LOW);
+digitalWrite(LED_FIXPOS_STATUS, LOW);
+  
    parse_gprmc();
   coord_valid = get_coord();
   
@@ -772,11 +782,12 @@ void loop()
     else
       send_packet(_BEACON);
   }
-  
+ 
   delay(tx_delay);                              // setting tx_delay asal 5000 (5 saat)
   // randomize(tx_delay, 14000, 16000);         // asal 14000, 16000 (14 saat hingga 16 saat)
-   randomize(tx_delay, 2000, 3000);             // setting untuk test system
+  // randomize(tx_delay, 2000, 3000);           // setting untuk test system
   // randomize(tx_delay, 18000, 30000);         // setting nak testing 3 hingga 5 minit
   // randomize(tx_delay, 6000, 10000);          // setting nak TX 6 hingga 10 saat 
-  // randomize(tx_delay, 12000, 20000);         // setting nak TX 12 hingga 20 saat, kereta guna hok ni sekarang
+  randomize(tx_delay, 12000, 20000);            // setting nak TX 12 hingga 20 saat, kereta guna hok ni sekarang
+
 }

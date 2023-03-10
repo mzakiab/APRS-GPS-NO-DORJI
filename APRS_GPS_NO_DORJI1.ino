@@ -107,17 +107,18 @@ char dest_beacon[8] = "BEACON";
 char digi[8] = "WIDE2";
 char digissid = 1;                // asal dia guna WIDE2-2
 
-char comment[128] = "Experiment APRS Arduino(NANO) ..:|GPS station|:..";
+char comment[128] = "Experiment APRS Arduino(UNO) ..:|GPS station|:..";
 char mystatus[128] = "9w2key.hopto.org";
 
 char lati[9];
 char lon[10];
 int coord_valid;
-const char sym_ovl = 'Y';
+const char sym_ovl = '/';         // Primary
 /****** List symbols at http://www.aprs.org/symbols.html ********/
-// const char sym_tab = 'p';      // Partly Cloudy
-// const char sym_tab = 'U';      // Matahari cerah
-const char sym_tab = '^';         // Kapal Terbang
+// const char sym_tab = 'p';      // Anjing Puteh
+// const char sym_tab = 'U';      // Bas Kuning
+// const char sym_tab = '^';      // Kapal Terbang
+const char sym_tab = 'j';         // Jeep Hijau
 
 unsigned int tx_delay = 1000;     // asal 5000
 unsigned int str_len = 400;
@@ -785,7 +786,7 @@ digitalWrite(LED_FIXPOS_STATUS, LOW);
  
   delay(tx_delay);                              // setting tx_delay asal 5000 (5 saat)
   // randomize(tx_delay, 14000, 16000);         // asal 14000, 16000 (14 saat hingga 16 saat)
-  // randomize(tx_delay, 2000, 3000);           // setting untuk test system
+  //randomize(tx_delay, 2000, 3000);            // setting untuk test system
   // randomize(tx_delay, 18000, 30000);         // setting nak testing 3 hingga 5 minit
   // randomize(tx_delay, 6000, 10000);          // setting nak TX 6 hingga 10 saat 
   randomize(tx_delay, 12000, 20000);            // setting nak TX 12 hingga 20 saat, kereta guna hok ni sekarang

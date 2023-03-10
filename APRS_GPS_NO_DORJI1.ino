@@ -1,4 +1,4 @@
-/*
+/***************************************
 Thanks to - Handiko Gesang - www.github.com/handiko
 Handiko Gesang dia guna Dorji module untuk RF, saya tak ada module itu. 
 Jadi saya buang koding Dorji, RF datang terus dari radio
@@ -15,7 +15,10 @@ GND     - GND MIC (-) diperlukan jika menggunakan handy
 5.0V    - VCC 2 way Relay PTT Controller 
 
 VCC dan GND untuk GPS Module, ambik di pin ICSP
-*/
+
+Pada 10hb Mac, 2023 tambah LED indicator bagi jenis-jenis msg yang akan di TX
+
+*************************************/
 
 #include <math.h>
 #include <stdio.h>
@@ -42,6 +45,13 @@ VCC dan GND untuk GPS Module, ambik di pin ICSP
 #define _FIXPOS_STATUS  3
 #define _STATUS         4
 #define _BEACON         5
+
+// LED Indicator 
+#define LED_GPRMC          12     // Biru
+#define LED_FIXPOS         11     // Hijau
+#define LED_FIXPOS_STATUS  10     // Merah
+#define LED_STATUS          4     // Kuning
+#define LED_BEACON          3     // Puteh
 
 // Defines the Dorji Control PIN
 #define _PTT      7
@@ -97,8 +107,8 @@ char dest_beacon[8] = "BEACON";
 char digi[8] = "WIDE2";
 char digissid = 1;                // asal dia guna WIDE2-2
 
-char comment[128] = " Experiment APRS Arduino(NANO) ..:|GPS station|:.. ";
-char mystatus[128] = " 9w2key.hopto.org ";
+char comment[128] = "Experiment APRS Arduino(NANO) ..:|GPS station|:..";
+char mystatus[128] = "9w2key.hopto.org";
 
 char lati[9];
 char lon[10];
@@ -109,8 +119,10 @@ const char sym_ovl = 'Y';
 // const char sym_tab = 'U';      // Matahari cerah
 const char sym_tab = '^';         // Kapal Terbang
 
-unsigned int tx_delay = 10000;     // asal 5000
+unsigned int tx_delay = 1000;     // asal 5000
 unsigned int str_len = 400;
+
+unsigned int LED_delay = 300;
 
 char bit_stuff = 0;
 unsigned short crc=0xffff;
@@ -145,7 +157,7 @@ void print_code_version(void);
 void print_debug(char type);
 
 /*
- * 
+ * de 9W2KEY 
  */
 void set_nada_1200(void)
 {
@@ -423,7 +435,7 @@ void send_packet(char packet_type)
   digitalWrite(_PTT, HIGH);
   digitalWrite(PTT_LED, HIGH);
 
-  delay(800);                 // delay untuk tekan PTT dulu kejap, kemudian baru audio tubik
+  delay(700);                     // delay untuk tekan PTT dulu kejap, kemudian baru audio tubik
 
   /*
    * AX25 FRAME
@@ -447,7 +459,7 @@ void send_packet(char packet_type)
   send_crc();
   send_flag(3);
 
-  delay(500);               // delay untuk tunggu kejap, sebelum lepas PTT
+  delay(400);                     // delay untuk tunggu kejap, sebelum lepas PTT
   digitalWrite(_PTT, LOW);
   digitalWrite(LED_BUILTIN, 0);
   digitalWrite(PTT_LED, LOW);  
@@ -464,7 +476,7 @@ void randomize(unsigned int &var, unsigned int low, unsigned int high)
 }
 
 /*
- * 
+ * de 9W2KEY
  */
 char rx_gprmc(void)
 {
@@ -553,7 +565,7 @@ int get_coord(void)
 }
 
 /*
- * 
+ * 9w2key.hopto.org / 9w2key.blogspot.com
  */
 void set_io(void)
 {
@@ -566,6 +578,12 @@ void set_io(void)
   pinMode(_PTT, OUTPUT);
   pinMode(_PD, OUTPUT);
   pinMode(_POW, OUTPUT);
+
+  pinMode(LED_GPRMC, OUTPUT);
+  pinMode(LED_FIXPOS, OUTPUT);
+  pinMode(LED_FIXPOS_STATUS, OUTPUT);
+  pinMode(LED_STATUS, OUTPUT);
+  pinMode(LED_BEACON, OUTPUT);
 
   digitalWrite(_PTT, LOW);
   digitalWrite(_PD, HIGH);
@@ -606,9 +624,14 @@ void print_debug(char type)
   /******** DEST ********/
   if(type == _BEACON)
     Serial.print(dest_beacon);
+    
   else
     Serial.print(dest);
     Serial.print(',');
+
+    digitalWrite(LED_BEACON, HIGH);
+    delay(LED_delay);
+    digitalWrite(LED_BEACON, LOW);
 
   /******** DIGI ********/
   Serial.print(digi);
@@ -621,6 +644,10 @@ void print_debug(char type)
   {
     Serial.print('$');
     Serial.print(rmc);
+
+    digitalWrite(LED_GPRMC, HIGH);
+    delay(LED_delay);
+    digitalWrite(LED_GPRMC, LOW);    
   }
   else if(type == _FIXPOS)
   {
@@ -629,11 +656,20 @@ void print_debug(char type)
     Serial.print(sym_ovl);
     Serial.print(lon);
     Serial.print(sym_tab);
+
+    digitalWrite(LED_FIXPOS, HIGH);
+    delay(LED_delay);
+    digitalWrite(LED_FIXPOS, LOW);    
   }
   else if(type == _STATUS)
   {
     Serial.print(_DT_STATUS);
     Serial.print(mystatus);
+
+    digitalWrite(LED_STATUS, HIGH);
+    delay(LED_delay);
+    digitalWrite(LED_STATUS, LOW);
+    
   }
   else if(type == _FIXPOS_STATUS)
   {
@@ -643,6 +679,10 @@ void print_debug(char type)
     Serial.print(lon);
     Serial.print(sym_tab);
     Serial.print(comment);
+
+    digitalWrite(LED_FIXPOS_STATUS, HIGH);
+    delay(LED_delay);
+    digitalWrite(LED_FIXPOS_STATUS, LOW);
   }
   else
   {
@@ -696,7 +736,7 @@ void dorji_close(SoftwareSerial &ser)
 }
 
 /*
- * 
+ * 9w2key.blogspot.com / 9w2key.hopto.org
  */
 void setup()
 {
@@ -707,7 +747,7 @@ void setup()
   
 //  dorji_reset(dorji);
 //  dorji_readback(dorji);
-  delay(1000);
+//  delay(1000);
 //  dorji_setfreq(144.390, 144.390, dorji);
 //  dorji_readback(dorji);
 
@@ -735,8 +775,8 @@ void loop()
   
   delay(tx_delay);                              // setting tx_delay asal 5000 (5 saat)
   // randomize(tx_delay, 14000, 16000);         // asal 14000, 16000 (14 saat hingga 16 saat)
-  // randomize(tx_delay, 3000, 5000);           // setting yang digunakan dalam kereta
+   randomize(tx_delay, 2000, 3000);             // setting untuk test system
   // randomize(tx_delay, 18000, 30000);         // setting nak testing 3 hingga 5 minit
   // randomize(tx_delay, 6000, 10000);          // setting nak TX 6 hingga 10 saat 
-  randomize(tx_delay, 12000, 20000);            // setting nak TX 12 hingga 20 saat 
+  // randomize(tx_delay, 12000, 20000);         // setting nak TX 12 hingga 20 saat, kereta guna hok ni sekarang
 }

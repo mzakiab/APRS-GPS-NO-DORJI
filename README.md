@@ -3,7 +3,7 @@ Arduino APRS Transmitter with GPS and without Dorji module
 <p>
 <img src = "https://github.com/mzakiab/APRS-GPS-NO-DORJI/blob/main/IMG_20230310_164208.jpg">
 <p>
-<img scr = "https://github.com/mzakiab/APRS-GPS-NO-DORJI/blob/main/IMG_20230310_164309.jpg">
+<img src = "https://github.com/mzakiab/APRS-GPS-NO-DORJI/blob/main/IMG_20230310_164309.jpg">
 <p>
 <img src = "https://github.com/mzakiab/APRS-GPS-NO-DORJI/blob/main/IMG_20230310_164342.jpg">
 <p>

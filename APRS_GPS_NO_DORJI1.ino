@@ -16,7 +16,7 @@ GND     - GND MIC (-) diperlukan jika menggunakan handy
 
 VCC dan GND untuk GPS Module, ambik di pin ICSP
 
-Pada 10hb Mac, 2023 tambah LED indicator bagi jenis-jenis msg yang akan di TX
+Pada 10hb Mac, 2023 tambah LED indicator bagi jenis-jenis msg yang akan dihantar
 
 *************************************/
 
@@ -107,7 +107,7 @@ char dest_beacon[8] = "BEACON";
 char digi[8] = "WIDE2";
 char digissid = 1;                // asal dia guna WIDE2-2
 
-char comment[128] = "Experiment APRS Arduino(UNO) ..:|GPS station|:..";
+char comment[128] = "Experiment APRS Arduino(NANO) ..:|GPS station|:..";
 char mystatus[128] = "9w2key.hopto.org";
 
 char lati[9];
@@ -118,7 +118,8 @@ const char sym_ovl = '/';         // Primary
 // const char sym_tab = 'p';      // Anjing Puteh
 // const char sym_tab = 'U';      // Bas Kuning
 // const char sym_tab = '^';      // Kapal Terbang
-const char sym_tab = 'j';         // Jeep Hijau
+// const char sym_tab = 'j';      // Jeep Hijau
+const char sym_tab = 'X';         // Helicopter
 
 unsigned int tx_delay = 1000;     // asal 5000
 unsigned int str_len = 400;
@@ -646,6 +647,11 @@ void print_debug(char type)
     Serial.print('$');
     Serial.print(rmc);
 
+    digitalWrite(LED_BEACON, LOW);
+    digitalWrite(LED_FIXPOS, LOW);
+    digitalWrite(LED_STATUS, LOW);
+    digitalWrite(LED_FIXPOS_STATUS, LOW);    
+
     digitalWrite(LED_GPRMC, HIGH);
     // delay(LED_delay);
     // digitalWrite(LED_GPRMC, LOW);    
@@ -658,6 +664,11 @@ void print_debug(char type)
     Serial.print(lon);
     Serial.print(sym_tab);
 
+digitalWrite(LED_BEACON, LOW);
+digitalWrite(LED_GPRMC, LOW);
+digitalWrite(LED_STATUS, LOW);
+digitalWrite(LED_FIXPOS_STATUS, LOW);
+
     digitalWrite(LED_FIXPOS, HIGH);
     // delay(LED_delay);
     // digitalWrite(LED_FIXPOS, LOW);    
@@ -666,6 +677,11 @@ void print_debug(char type)
   {
     Serial.print(_DT_STATUS);
     Serial.print(mystatus);
+
+digitalWrite(LED_BEACON, LOW);
+digitalWrite(LED_GPRMC, LOW);
+digitalWrite(LED_FIXPOS, LOW);
+digitalWrite(LED_FIXPOS_STATUS, LOW);
 
     digitalWrite(LED_STATUS, HIGH);
     // delay(LED_delay);
@@ -680,6 +696,11 @@ void print_debug(char type)
     Serial.print(lon);
     Serial.print(sym_tab);
     Serial.print(comment);
+
+digitalWrite(LED_BEACON, LOW);
+digitalWrite(LED_GPRMC, LOW);
+digitalWrite(LED_FIXPOS, LOW);
+digitalWrite(LED_STATUS, LOW);
 
     digitalWrite(LED_FIXPOS_STATUS, HIGH);
     // delay(LED_delay);
@@ -763,15 +784,6 @@ void setup()
 void loop()
 {
 
-/***********************
-Nak tutup LED Msg Type
-************************/
-digitalWrite(LED_BEACON, LOW);
-digitalWrite(LED_GPRMC, LOW);
-digitalWrite(LED_FIXPOS, LOW);
-digitalWrite(LED_STATUS, LOW);
-digitalWrite(LED_FIXPOS_STATUS, LOW);
-  
    parse_gprmc();
   coord_valid = get_coord();
   
@@ -786,7 +798,7 @@ digitalWrite(LED_FIXPOS_STATUS, LOW);
  
   delay(tx_delay);                              // setting tx_delay asal 5000 (5 saat)
   // randomize(tx_delay, 14000, 16000);         // asal 14000, 16000 (14 saat hingga 16 saat)
-  //randomize(tx_delay, 2000, 3000);            // setting untuk test system
+  // randomize(tx_delay, 2000, 3000);           // setting untuk test system
   // randomize(tx_delay, 18000, 30000);         // setting nak testing 3 hingga 5 minit
   // randomize(tx_delay, 6000, 10000);          // setting nak TX 6 hingga 10 saat 
   randomize(tx_delay, 12000, 20000);            // setting nak TX 12 hingga 20 saat, kereta guna hok ni sekarang

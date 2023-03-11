@@ -1,6 +1,18 @@
 # APRS-GPS-NO-DORJI
 Arduino APRS Transmitter with GPS and without Dorji module  
 <p>
+Hari ini, 11 Mac, 2023 saya letak LED bagi tujuan menunjukkan kepada pengguna jenis message yang hantar.
+<p>
+1. LED Biru     - GPS Raw Data
+<br>
+2. LED Hijau    - QTH
+<br>
+3. LED Merah    - QTH + Comment
+<br>
+4. LED Kuning   - Status
+<br>
+5. LED Puteh    - Beacon / QRV
+<p>
 <img src = "https://github.com/mzakiab/APRS-GPS-NO-DORJI/blob/main/IMG_20230310_164208.jpg">
 <p>
 <img src = "https://github.com/mzakiab/APRS-GPS-NO-DORJI/blob/main/IMG_20230310_164309.jpg">

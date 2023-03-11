@@ -1,7 +1,7 @@
 # APRS-GPS-NO-DORJI
 Arduino APRS Transmitter with GPS and without Dorji module  
 <p>
-Hari ini, 11 Mac, 2023 saya letak LED bagi tujuan menunjukkan kepada pengguna jenis message yang hantar.
+Hari ini, 11 Mac, 2023 saya letak LED bagi tujuan menunjukkan kepada pengguna jenis message yang akan dihantar.
 <p>
 1. LED Biru     - GPS Raw Data
 <br>

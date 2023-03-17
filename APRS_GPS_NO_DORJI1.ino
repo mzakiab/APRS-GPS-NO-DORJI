@@ -47,11 +47,11 @@ Pada 10hb Mac, 2023 tambah LED indicator bagi jenis-jenis msg yang akan dihantar
 #define _BEACON         5
 
 // LED Indicator 
-#define LED_GPRMC          12     // Biru
-#define LED_FIXPOS         11     // Hijau
-#define LED_FIXPOS_STATUS  10     // Merah
-#define LED_STATUS          4     // Kuning
-#define LED_BEACON          3     // Puteh
+#define LED_GPRMC          12     // Biru   - GPS Raw Data
+#define LED_FIXPOS         11     // Hijau  - QTH
+#define LED_FIXPOS_STATUS  10     // Merah  - QTH + Comment
+#define LED_STATUS          4     // Kuning - Status
+#define LED_BEACON          3     // Puteh  - Beacon / QRV
 
 // Defines the Dorji Control PIN
 #define _PTT      7

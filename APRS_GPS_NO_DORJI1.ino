@@ -101,7 +101,7 @@ unsigned int tc2400 = (unsigned int)(0.5 * adj_2400 * 1000000.0 / 2400.0);
 char mycall[8] = "9W2KEY";        // sila tukar kepada callsign anda yang sah
 char myssid = 2;
 
-char dest[8] = "APZKY1";          //  APZxxx adalah The AX.25 Destination Address bagi Experimental
+char dest[8] = "APKEY2";          //  APZxxx adalah The AX.25 Destination Address bagi Experimental
 char dest_beacon[8] = "BEACON";
 
 char digi[8] = "WIDE2";
